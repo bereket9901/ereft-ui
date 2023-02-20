@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../../../index.css";
-import { Button, Col, Divider, Layout, Row, Space } from "antd";
+import { Button, Col, Divider, Layout, Result, Row, Space } from "antd";
 import Menu from "../variables/const";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import logo from 'assets/img/ereft/logo ereft.png';
@@ -12,33 +12,49 @@ const OrderPage: React.FC = () => {
   const [subSubMenu, setSubSubMenu] = useState([]);
   const [ordered, setOrdered] = useState<any[]>([]);
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+  const [menu, setMenu]=useState([]);
   const apiUrl = "https://localhost:7085/Category";
-  
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept",
+    },
+  };
 
   useEffect(() => {
     var total=0;
-  ordered.map((item)=> item.totalPrice ? total+=item.totalPrice : total+=item.price
+  ordered.map((item)=> item.totalPrice ? total+=item.totalPrice : total+=item.unitPrice
   )    
   setTotalOrderPrice(total);
   }, [ordered])
-  
+  useEffect(()=>{
+    axios.get(apiUrl,options).then((result)=>{
+      setMenu(result.data);
+
+    });
+
+  },[])
   
   function handelMainMenuClick(item:any):any
   {
-    setSubMenu(item.subMenu);
+    setSubMenu(item.groups);
   }
   
   function handelSubMenuClick(item:any):any
   {
-    setSubSubMenu(item.subSubMenu);
+    setSubSubMenu(item.menuItems);
   }
 function handelSubSubMenuClick(item:any):any
-{
-  var index = ordered.findIndex(o => o.Id === item.Id);
+{ 
+  item.amount=1;
+  var index = ordered.findIndex(o => o.id === item.id);
 
   if(index===-1)
   {
-  setOrdered([{...item}, ...ordered]);//item is being cloned and added into ordered array inorder to remove the reference sharing between subsubmenu item and ordered item. having the same reference will create ambiguity if one of the two array item is manipulated both of the arrays item is updated.
+    
+    setOrdered([{...item}, ...ordered]);//item is being cloned and added into ordered array inorder to remove the reference sharing between subsubmenu item and ordered item. having the same reference will create ambiguity if one of the two array item is manipulated both of the arrays item is updated.
   }
 
 }
@@ -57,7 +73,7 @@ function handelAddAmount(item:any):any
 {
   item.amount=++item.amount;
   const index =ordered.indexOf(item);
-  ordered[index].totalPrice=item.amount*item.price;
+  ordered[index].totalPrice=item.amount*item.unitPrice;
   setOrdered([...ordered]);
   
 }
@@ -65,15 +81,11 @@ function handelSubtractAmount(item:any):any
 {
   item.amount=--item.amount;
   const index =ordered.indexOf(item);
-  ordered[index].totalPrice=item.amount*item.price;
+  ordered[index].totalPrice=item.amount*item.unitPrice;
   setOrdered([...ordered]);
 }
   return (
     <>
-  
-
-
-
       <Row>
         <Col xl={16} lg={12} md={12}>
           <div style={{}}>
@@ -88,7 +100,7 @@ function handelSubtractAmount(item:any):any
             <Row gutter={[16, 16]}>
               {subMenu.map((item:any, index:number) => 
              <Col lg={4} md={8} sm={8} xs={12} key={index} >
-             <Button onClick={() => handelSubMenuClick(item)} className="subMenuGrid ">{item.title}</Button>
+             <Button onClick={() => handelSubMenuClick(item)} className="subMenuGrid ">{item.name}</Button>
             </Col>
             )}
             </Row>
@@ -96,9 +108,9 @@ function handelSubtractAmount(item:any):any
 
             <div>
           <Row gutter={[16, 16]}>
-          {Menu.map((item:any, index:number) => 
+          {menu.map((item:any, index:number) => 
              <Col lg={4} md={8} sm={8} xs={12} key={index} >
-             <Button onClick={() => handelMainMenuClick(item)} className="mainMenuGrid">{item.title}</Button>
+             <Button onClick={() => handelMainMenuClick(item)} className="mainMenuGrid">{item.name}</Button>
             </Col>
             )}
             
@@ -165,7 +177,7 @@ function handelSubtractAmount(item:any):any
             <Col lg={4} md={4} sm={6} xs={8}>
               
               <p className="white-text" style={{ color: "black", marginRight: 20, marginTop: 15, float:'right'}}>
-              {item.totalPrice?item.totalPrice:item.price}
+              {item.totalPrice?item.totalPrice:item.unitPrice}
               </p>
             </Col>
             </Row>

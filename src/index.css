@@ -127,7 +127,7 @@ code {
 .buttonLarge:hover{
   color: #fff !important;
   border-color: #fff !important;
-  background-color: #ff6803;
+  background-color: #d71d1d;
   border-radius: 0;
 }
 .white-text {
@@ -198,11 +198,20 @@ pre.demo-code {
 /* Ordered grid page  */
 
 .ordered-card-button {
+  position: relative;
+  top: 25px;
+  left: 62px; 
   text-align: center;
-  margin: 10px 60px;
+  margin: 5px 40px;
   background-color: #f54e12;
   color: #ffffff;
   padding: 3px 20px;
+}
+.ordered-card-button:hover{
+  color: #fff !important;
+  border-color:#fff !important;
+  background-color: #d71d1d;
+
 }
 .order-grid-headers{
   text-align: center; 

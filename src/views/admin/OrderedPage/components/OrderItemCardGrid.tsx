@@ -13,28 +13,24 @@ const OrderItemCardGrid: React.FC = () => (
       </p>
       <Row gutter={[35, 35]}>
         <Col>
-          <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
+          <OrderedItemCard />         
+        </Col>
+        <Col>
+          <OrderedItemCard />  
         </Col>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
+         
         </Col>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
+       
+        </Col>
+        <Col>
+          <OrderedItemCard /> 
         </Col>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
-        </Col>
-        <Col>
-          <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
-        </Col>
-        <Col>
-          <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
         </Col>
       </Row>
     </Col>
@@ -46,15 +42,12 @@ const OrderItemCardGrid: React.FC = () => (
       <Row gutter={[35, 35]}>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
         </Col>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
         </Col>
         <Col>
           <OrderedItemCard />
-          <Button className="ordered-card-button">Done</Button>
         </Col>
       </Row>
     </Col>

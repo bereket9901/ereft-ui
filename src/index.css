@@ -200,9 +200,8 @@ pre.demo-code {
 .ordered-card-button {
   position: relative;
   top: 25px;
-  left: 62px; 
   text-align: center;
-  margin: 5px 40px;
+  margin:0px 40px 15px;
   background-color: #f54e12;
   color: #ffffff;
   padding: 3px 20px;
@@ -220,6 +219,7 @@ pre.demo-code {
 }
 .ordered-item-card-text{
   font-weight: 500;
+  margin: 5px;
   }
 
 .request-form-card{

@@ -141,8 +141,8 @@ function handelSubtractAmount(item:any):any
                 </div>{" "}
               </Col>
             </Row>
-            {ordered.map((item: any) => 
-            <Row className="margin">
+            {ordered.map((item: any,index:number) => 
+            <Row className="margin" key={index} >
             <Col
               lg={2}
               md={2}
@@ -185,7 +185,7 @@ function handelSubtractAmount(item:any):any
             )}
               <Row className="margin" style={{marginTop: 35, marginRight:52, float:'right'}}>
               <Col>
-               <p className="white-text" style={{color:"black"}}>Total price <Space>  </Space> </p>
+               <p className="white-text" style={{color:"black"}}>Total price </p>
               </Col>
               <Col>
                     {totalOrderPrice}

@@ -1,5 +1,4 @@
 {
-	"proxy": "http://localhost:4000",
 	"homepage": "https://erefet-ui.com/erefet-ui-ts",
 	"name": "erefet-ui",
 	"version": "1.1.0",

@@ -20,11 +20,9 @@ const OrderItemCardGrid: React.FC = () => (
         </Col>
         <Col>
           <OrderedItemCard />
-         
         </Col>
         <Col>
           <OrderedItemCard />
-       
         </Col>
         <Col>
           <OrderedItemCard /> 

@@ -133,6 +133,11 @@ code {
 .white-text {
   color: #f9f9f9;
   font-size: 14px;
+  font-weight: 700;
+}
+.black-bold-text{
+  font-size: 14px;
+  font-weight: 700;
 }
 pre {
   padding: 8px 11px;

@@ -176,19 +176,19 @@ function handelSubtractAmount(item:any):any
             </Col>
             <Col lg={4} md={4} sm={6} xs={8}>
               
-              <p className="white-text" style={{ color: "black", marginRight: 20, marginTop: 15, float:'right'}}>
+              <p className="black-bold-text" style={{ marginRight: 20, marginTop: 15, float:'right'}}>
               {item.totalPrice?item.totalPrice:item.unitPrice}
               </p>
             </Col>
             </Row>
            
             )}
-              <Row className="margin" style={{marginTop: 35, marginRight:52, float:'right'}}>
+              <Row className="margin" style={{marginTop: 35, marginRight:62, float:'right'}}>
               <Col>
-               <p className="white-text" style={{color:"black"}}>Total price </p>
+               <p className="black-bold-text">Total price &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</p>
               </Col>
               <Col>
-                    {totalOrderPrice}
+                    <p className="black-bold-text">{totalOrderPrice}</p>
               </Col>
               </Row>
             <Divider className="margin" />

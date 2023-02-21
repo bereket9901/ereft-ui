@@ -14,6 +14,7 @@ const OrderPage: React.FC = () => {
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [menu, setMenu]=useState([]);
   const apiUrl = "https://localhost:7085/Category";
+  const apiUrlOrder="https://localhost:7085/Order";
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -22,13 +23,13 @@ const OrderPage: React.FC = () => {
       "Origin, X-Requested-With, Content-Type, Accept",
     },
   };
-
   useEffect(() => {
     var total=0;
-  ordered.map((item)=> item.totalPrice ? total+=item.totalPrice : total+=item.unitPrice
+  ordered.map((item)=> total+=item.ItemTotalPrice 
   )    
   setTotalOrderPrice(total);
   }, [ordered])
+
   useEffect(()=>{
     axios.get(apiUrl,options).then((result)=>{
       setMenu(result.data);
@@ -36,6 +37,7 @@ const OrderPage: React.FC = () => {
     });
 
   },[])
+  
   
   function handelMainMenuClick(item:any):any
   {
@@ -48,7 +50,10 @@ const OrderPage: React.FC = () => {
   }
 function handelSubSubMenuClick(item:any):any
 { 
+  
   item.amount=1;
+  item.ItemTotalPrice = item.amount*item.unitPrice;
+
   var index = ordered.findIndex(o => o.id === item.id);
 
   if(index===-1)
@@ -56,9 +61,7 @@ function handelSubSubMenuClick(item:any):any
     
     setOrdered([{...item}, ...ordered]);//item is being cloned and added into ordered array inorder to remove the reference sharing between subsubmenu item and ordered item. having the same reference will create ambiguity if one of the two array item is manipulated both of the arrays item is updated.
   }
-
 }
-  
 
 function handelRemoveOrder(item:any):any
 {
@@ -73,7 +76,7 @@ function handelAddAmount(item:any):any
 {
   item.amount=++item.amount;
   const index =ordered.indexOf(item);
-  ordered[index].totalPrice=item.amount*item.unitPrice;
+  ordered[index].ItemTotalPrice=item.amount*item.unitPrice;
   setOrdered([...ordered]);
   
 }
@@ -81,8 +84,35 @@ function handelSubtractAmount(item:any):any
 {
   item.amount=--item.amount;
   const index =ordered.indexOf(item);
-  ordered[index].totalPrice=item.amount*item.unitPrice;
+  ordered[index].ItemTotalPrice=item.amount*item.unitPrice;
   setOrdered([...ordered]);
+}
+function handelButtonOrder():any
+{
+  const payload = {
+    createdBy : 1,
+    totalPrice : totalOrderPrice,
+    orderMenuItems : ordered.map((o:any) =>  {
+      return {
+        menuItemId : o.id,
+        price: o.ItemTotalPrice, 
+        amount: o.amount
+      }
+    })
+  };
+
+ if(payload.totalPrice!=0){
+ axios.post(apiUrlOrder,payload,options).then((result)=>{
+      if(result.data==false){
+        return console.error();
+        
+      }
+      else{
+      console.log(result.data)
+      }
+    });
+  }
+
 }
   return (
     <>
@@ -177,7 +207,7 @@ function handelSubtractAmount(item:any):any
             <Col lg={4} md={4} sm={6} xs={8}>
               
               <p className="black-bold-text" style={{ marginRight: 20, marginTop: 15, float:'right'}}>
-              {item.totalPrice?item.totalPrice:item.unitPrice}
+              {item.ItemTotalPrice}
               </p>
             </Col>
             </Row>
@@ -194,7 +224,7 @@ function handelSubtractAmount(item:any):any
             <Divider className="margin" />
             <Row className="margin1" >
               <Col lg={12} md={12} sm={18} xs={24}>
-                <Button className="buttonLarge">Order</Button>
+                <Button onClick={()=>handelButtonOrder()} className="buttonLarge">Order</Button>
               </Col>
             </Row>
           </div>

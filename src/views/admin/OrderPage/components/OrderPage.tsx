@@ -13,6 +13,7 @@ const OrderPage: React.FC = () => {
   const [ordered, setOrdered] = useState<any[]>([]);
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [menu, setMenu]=useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const apiUrl = "https://localhost:7085/Category";
   const apiUrlOrder="https://localhost:7085/Order";
   const options = {
@@ -33,9 +34,7 @@ const OrderPage: React.FC = () => {
   useEffect(()=>{
     axios.get(apiUrl,options).then((result)=>{
       setMenu(result.data);
-
     });
-
   },[])
   
   
@@ -89,6 +88,7 @@ function handelSubtractAmount(item:any):any
 }
 function handelButtonOrder():any
 {
+  setIsLoading(true);
   const payload = {
     createdBy : 1,
     totalPrice : totalOrderPrice,
@@ -101,18 +101,24 @@ function handelButtonOrder():any
     })
   };
 
- if(payload.totalPrice!=0){
+ if(payload.totalPrice!==0){
+
  axios.post(apiUrlOrder,payload,options).then((result)=>{
       if(result.data==false){
-        return console.error();
-        
+        setIsLoading(false);
+        return console.log("error");
       }
       else{
       console.log(result.data)
+      setOrdered([]);
+      setIsLoading(false);
+
       }
     });
   }
-
+  else{
+    setIsLoading(false);
+  }
 }
   return (
     <>
@@ -224,7 +230,7 @@ function handelButtonOrder():any
             <Divider className="margin" />
             <Row className="margin1" >
               <Col lg={12} md={12} sm={18} xs={24}>
-                <Button onClick={()=>handelButtonOrder()} className="buttonLarge">Order</Button>
+                <Button loading={isLoading} disabled={totalOrderPrice==0}onClick={()=>handelButtonOrder()} className="buttonLarge">Order</Button>
               </Col>
             </Row>
           </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 // chakra imports
 import {
 	Box,

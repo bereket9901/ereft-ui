@@ -206,7 +206,7 @@ pre.demo-code {
   position: relative;
   top: 25px;
   text-align: center;
-  margin:0px 40px 15px;
+  margin:0px 100px 15px;
   background-color: #f54e12;
   color: #ffffff;
   padding: 3px 20px;
@@ -221,12 +221,19 @@ pre.demo-code {
   text-align: center; 
   font-size: 33px;
   font-weight: 700;
+  margin-bottom: 20px;
 }
 .ordered-item-card-text{
   font-weight: 500;
   margin: 5px;
+  font-size: 18px;
   }
-
+  
+.ordered-item-card-text-header{
+    font-weight: bold;
+    margin: 5px;
+    font-size: 22px;
+    }
 .request-form-card{
   margin: auto;
 }

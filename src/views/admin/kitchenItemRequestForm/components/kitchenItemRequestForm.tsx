@@ -88,9 +88,9 @@ const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange }) => {
     return Promise.reject(new Error('Amount must be greater than zero!'));
   };
 
-const RequestForm: React.FC = () => (
+const kitchenItemRequestForm: React.FC = () => (
   <>
-  <p className='login-header-text'>Request form</p>
+  <p className='login-header-text'>Kitchen Item Request Form</p>
   <Card  className='request-form-card' style={{ maxWidth: 600 }} >
     <Form
       name="dynamic_form_nest_item"
@@ -115,8 +115,8 @@ const RequestForm: React.FC = () => (
                   {/* <Input placeholder="Item Type" /> */}
                   <Select showSearch placeholder="Item Type">
                     
-                  {itemOption.map(option=>(<Option value={option.value}>{option.name}</Option>)) }
-                    
+                      
+                  {itemOption.map((option:any,index:number)=>(<Option key={index} value={option.value}>{option.name}</Option>)) }
                   </Select>
                 </Form.Item>
                  <Form.Item name={[name,'itemAmout']}
@@ -144,4 +144,4 @@ const RequestForm: React.FC = () => (
   </>
 );
 
-export default RequestForm;
+export default kitchenItemRequestForm;

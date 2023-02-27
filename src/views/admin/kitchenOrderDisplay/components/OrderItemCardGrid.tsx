@@ -4,7 +4,7 @@ import OrderedItemCard from './OrderedItemCard';
 import axios from 'axios';
 import { HttpTransportType, HubConnection, HubConnectionBuilder} from '@microsoft/signalr';
 import { apiBaseUrl, options } from 'config';
- import sound from "../../../../assets/sound/Notification.mp3";
+//  import sound from "../../../../assets/sound/Notification.mp3";
 const apiOrderUrl=`${apiBaseUrl}/Order`;
 
 function OrderItemCardGrid(){

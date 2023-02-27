@@ -1,10 +1,12 @@
 import { Icon } from '@chakra-ui/react';
 import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart } from 'react-icons/md';
 // Admin Imports
-import Order from 'views/admin/OrderPage';
-import Ordered from 'views/admin/OrderedPage';
-import Inventory from 'views/admin/Inventory';
-import RequestForm from 'views/admin/Request';
+import Order from 'views/admin/cashierOrderPage';
+import Ordered from 'views/admin/kitchenOrderDisplay';
+import kitchenInventory from 'views/admin/kitchenInventory';
+import kitchenItemRequestForm from 'views/admin/kitchenItemRequestForm';
+import storeInventory from 'views/admin/kitchenInventory';
+import storeItemRequestForm from 'views/admin/kitchenItemRequestForm';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
 
@@ -26,18 +28,32 @@ const routes = [
 	},
 	
 	{
-		name: 'Inventory',
+		name: 'Kitchen Inventory',
 		layout: '/admin',
-		path: '/inventory',
+		path: '/kitchen-inventory',
 		icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-		component: Inventory
+		component: kitchenInventory
 	},
 	{
-		name: 'Request Form',
+		name: 'Kitchen Item Request',
 		layout: '/admin',
 		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-		path: '/request-form',
-		component: RequestForm
+		path: '/kitchen-item-request-form',
+		component: kitchenItemRequestForm
+	},
+	{
+		name: 'Store Inventory',
+		layout: '/admin',
+		path: '/store-inventory',
+		icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+		component: storeInventory
+	},
+	{
+		name: 'Store Item Request',
+		layout: '/admin',
+		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+		path: '/store-item-request-form',
+		component: storeItemRequestForm
 	},
 	{
 		name: 'Sign In',

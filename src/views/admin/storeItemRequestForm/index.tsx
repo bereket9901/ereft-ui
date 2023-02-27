@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import RequestForm from './components/kitchenItemRequestForm';
+import RequestForm from './components/storeItemRequestForm';
 
 export default function kitchenItemRequestForm() {
 	return (

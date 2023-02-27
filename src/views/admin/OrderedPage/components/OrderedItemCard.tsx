@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { Button,Card, Row, Col } from 'antd';
-import { textDecoration } from '@chakra-ui/system';
 import axios from 'axios';
-const apiUrl = "https://localhost:7085/Order";
-const options = {
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers":
-    "Origin, X-Requested-With, Content-Type, Accept",
-  },
-};
+import { apiBaseUrl, options } from 'config';
+const apiOrderUrl=`${apiBaseUrl}/Order`;
 
-function OrderedItemCard(props: { data:any}){
-  const { data} = props;
-  const [order, setOrder] = useState<any[]>([]);
-  const itemsdata=data.items;
-  const cheifOrder=itemsdata.filter((item:any)=>item.isChiefOrder==true);
-  const baristaOrder=itemsdata.filter((item:any)=>item.isChiefOrder==false);
-  useEffect(()=>{
-    axios.get(apiUrl,options).then((result)=>{
-      setOrder(result.data);
-    });
-  },[])
- function a(){
+function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
 
+  const { data, fetchKitchenOrders} = props;
+  const itemsData=data.items;
+  const chiefOrder=itemsData.filter((item:any)=>item.isChiefOrder==true);
+  const baristaOrder=itemsData.filter((item:any)=>item.isChiefOrder==false);
+  const [order, setOrder]=useState(0);
+
+  function handelOrderDone()
+ {
+  axios.put(apiOrderUrl,data.id,options).then((result)=>{
+    if(result){
+      fetchKitchenOrders();
+    }
+    console.log(result.data);
+  }).catch(error=>{console.log(error)});
  }
   return(
   <Card 
@@ -33,9 +28,9 @@ function OrderedItemCard(props: { data:any}){
     headStyle={{ background: '#243763', textAlign: 'center', color: '#f8f8f8',fontSize:'20px' }}
     bodyStyle={{ background: '#f8f8f8' }}
   >
-    <div className='odered-card-body' >
-      {cheifOrder.length>=1?<p className='ordered-item-card-text-header' >Chief Order</p>:null}
-      {cheifOrder.map((item:any,index:any)=>( 
+    <div >
+      {chiefOrder.length>=1?<p className='ordered-item-card-text-header' >Chief Order</p>:null}
+      {chiefOrder.map((item:any,index:any)=>( 
       <Row key={index} gutter={16}>
       <Col span={16}><p className='ordered-item-card-text' >{item.name}</p></Col>
       <Col span={8}><p className='ordered-item-card-text'>{item.amount}</p></Col>
@@ -46,10 +41,11 @@ function OrderedItemCard(props: { data:any}){
    <Row gutter={16} key={index}>
       <Col span={16}><p className='ordered-item-card-text'>{item.name}</p></Col>
       <Col span={8}><p className='ordered-item-card-text'>{item.amount}</p></Col>
-    </Row>))}
+    </Row>
+    ))}
     <Row>
       <Col> 
-      <Button onClick={a} className="ordered-card-button">Done</Button>
+      <Button onClick={handelOrderDone} className="ordered-card-button">Done</Button>
       </Col>
     </Row>
     

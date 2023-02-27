@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../../../index.css";
-import { Button, Col, Divider, Layout, Result, Row, Space } from "antd";
-import Menu from "../variables/const";
+import { Button, Col, Divider, Row } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import logo from 'assets/img/ereft/logo ereft.png';
 import axios from 'axios';
+import { apiBaseUrl, options } from "config";
 
 const OrderPage: React.FC = () => {
 
@@ -14,16 +14,9 @@ const OrderPage: React.FC = () => {
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [menu, setMenu]=useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const apiUrl = "https://localhost:7085/Category";
-  const apiUrlOrder="https://localhost:7085/Order";
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers":
-      "Origin, X-Requested-With, Content-Type, Accept",
-    },
-  };
+  const apiUrlCategory = `${apiBaseUrl}/Category`;
+  const apiUrlOrder=`${apiBaseUrl}/Order`;
+ 
   useEffect(() => {
     var total=0;
   ordered.map((item)=> total+=item.ItemTotalPrice 
@@ -32,7 +25,7 @@ const OrderPage: React.FC = () => {
   }, [ordered])
 
   useEffect(()=>{
-    axios.get(apiUrl,options).then((result)=>{
+    axios.get(apiUrlCategory,options).then((result)=>{
       setMenu(result.data);
     });
   },[])

@@ -26,32 +26,6 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'onion',
-    amount: 32,
-    unit: 'kg',
-  },
-  {
-    key: '2',
-    name: 'Tomato',
-    amount: 42,
-    unit: 'kg',
-  },
-  {
-    key: '3',
-    name: 'Potato',
-    amount: 32,
-    unit: 'kg',
-  },
-  {
-    key: '4',
-    name: 'Garlic',
-    amount: 12,
-    unit: 'kg',
-  },
-];
 
 const onChange: TableProps<DataType>['onChange'] = (
   pagination,
@@ -62,15 +36,18 @@ const onChange: TableProps<DataType>['onChange'] = (
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const InventoryTable: React.FC = () => (
+const InventoryTable  =(props:{tableData:any,})=> {
+  const {tableData}=props;
+  return(
   <Row gutter={16}>
     <Col span={2}>
     </Col>
     <Col span={20}>
-    <p className='order-grid-headers'>Items available in the store</p>
-    <Table   className='ant-table-thead ant-table-cell' columns={columns} dataSource={data} onChange={onChange} />
+  
+    <Table   className='ant-table-thead ant-table-cell' columns={columns} dataSource={tableData} onChange={onChange} />
     </Col>
   </Row>
-);
+  );
+}
 export default InventoryTable;
 

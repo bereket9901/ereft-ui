@@ -6,7 +6,7 @@ import Ordered from 'views/admin/kitchenOrderDisplay';
 import kitchenInventory from 'views/admin/kitchenInventory';
 import kitchenItemRequestForm from 'views/admin/kitchenItemRequestForm';
 import storeInventory from 'views/admin/kitchenInventory';
-import storeItemRequestForm from 'views/admin/kitchenItemRequestForm';
+import storeItemRequestForm from 'views/admin/storeItemRequestForm';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
 

@@ -90,7 +90,7 @@ const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange }) => {
 
 const kitchenItemRequestForm: React.FC = () => (
   <>
-  <p className='login-header-text'>Kitchen Item Request Form</p>
+ 
   <Card  className='request-form-card' style={{ maxWidth: 600 }} >
     <Form
       name="dynamic_form_nest_item"

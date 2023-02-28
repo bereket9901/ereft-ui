@@ -116,7 +116,7 @@ const kitchenItemRequestForm: React.FC = () => (
                   <Select showSearch placeholder="Item Type">
                     
                       
-                  {itemOption.map((option:any,index:number)=>(<Option key={index} value={option.value}>{option.name}</Option>)) }
+                  {itemOption.map((option:any,index:number)=>(<Option key={index} value={option.value}>{option.name}</Option>))}
                   </Select>
                 </Form.Item>
                  <Form.Item name={[name,'itemAmout']}

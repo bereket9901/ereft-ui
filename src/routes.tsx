@@ -3,10 +3,8 @@ import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart } from 'rea
 // Admin Imports
 import Order from 'views/admin/cashierOrderPage';
 import Ordered from 'views/admin/kitchenOrderDisplay';
-import kitchenInventory from 'views/admin/kitchenInventory';
-import kitchenItemRequestForm from 'views/admin/kitchenItemRequestForm';
-import storeInventory from 'views/admin/kitchenInventory';
-import storeItemRequestForm from 'views/admin/storeItemRequestForm';
+import Inventory from 'views/admin/inventory';
+import ItemRequestForm from 'views/admin/itemRequestForm';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
 
@@ -28,32 +26,18 @@ const routes = [
 	},
 	
 	{
-		name: 'Kitchen Inventory',
+		name: 'Inventory',
 		layout: '/admin',
-		path: '/kitchen-inventory',
+		path: '/inventory',
 		icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-		component: kitchenInventory
+		component: Inventory
 	},
 	{
-		name: 'Kitchen Item Request',
+		name: 'Item Request',
 		layout: '/admin',
 		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-		path: '/kitchen-item-request-form',
-		component: kitchenItemRequestForm
-	},
-	{
-		name: 'Store Inventory',
-		layout: '/admin',
-		path: '/store-inventory',
-		icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
-		component: storeInventory
-	},
-	{
-		name: 'Store Item Request',
-		layout: '/admin',
-		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-		path: '/store-item-request-form',
-		component: storeItemRequestForm
+		path: '/item-request-form',
+		component: ItemRequestForm
 	},
 	{
 		name: 'Sign In',

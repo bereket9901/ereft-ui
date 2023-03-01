@@ -9,16 +9,8 @@ export default function Overview() {
 			{/* Main Fields */}
 			<Row>
 		      <Col span={12}>
-			   <p className='order-grid-headers'>Items available in the kitchen for chief</p>
+			   
 			    <InventoryTable tableData={chiefKitchenItem} />
-			  </Col>
-			  <Col span={12}>
-			  <p className='order-grid-headers'>Items available in the kitchen for barista</p>
-			    <InventoryTable tableData={baristaKitchenItem}/>
-			  </Col>
-			  <Col span={12}>
-			  <p className='order-grid-headers'>Items available in the kitchen for staff</p>
-			    <InventoryTable tableData={baristaKitchenItem}/>
 			  </Col>
 			</Row>
 		</Box>

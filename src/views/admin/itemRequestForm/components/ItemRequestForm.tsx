@@ -4,20 +4,7 @@ import { Button, Form, Input, Space, Card,Select, Dropdown, MenuProps } from 'an
 import { DownOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Button className='dropDown-button' type="text" onClick={() => console.log('Chief')}>Chief</Button>,
-  },
-  {
-    key: '2',
-    label:<Button className='dropDown-button' type="text" onClick={() => console.log('Barista')}>Barista</Button>,
-  },
-  {
-    key: '3',
-    label: <Button className='dropDown-button' type="text" onClick={() => console.log('Store')}>Store</Button>,
-  },
-];
+
 const itemOption=[{
   name:'Meat',
   value:"meat",
@@ -103,7 +90,23 @@ const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange }) => {
     return Promise.reject(new Error('Amount must be greater than zero!'));
   };
 
-const kitchenItemRequestForm: React.FC = () => (
+const kitchenItemRequestForm= () => {
+  const [requestFormName,setRequestFormName]=useState("");
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <Button className='dropDown-button' type="text" onClick={() => setRequestFormName('Chief')}>Chief</Button>,
+    },
+    {
+      key: '2',
+      label:<Button className='dropDown-button' type="text" onClick={() => setRequestFormName('Barista')}>Barista</Button>,
+    },
+    {
+      key: '3',
+      label: <Button className='dropDown-button' type="text" onClick={() => setRequestFormName('Store')}>Store</Button>,
+    },
+  ];
+  return(
   <>
   <div className='center-div'>
    <Dropdown
@@ -115,12 +118,12 @@ const kitchenItemRequestForm: React.FC = () => (
     }}  
   >  
     <Space className='ordered-item-card-text'>
-       Request For
+       Request For 
       <DownOutlined />
     </Space>
   </Dropdown>
   </div>
-  <p className='login-header-text'>Item Request Form</p>
+  <p className='login-header-text'>{requestFormName} Request Form</p>
   <Card  className='request-form-card' style={{ maxWidth: 600 }} >
     <Form
       name="dynamic_form_nest_item"
@@ -172,7 +175,7 @@ const kitchenItemRequestForm: React.FC = () => (
     </Form>
   </Card>
   
-  </>
-);
+  </>);
+}
 
 export default kitchenItemRequestForm;

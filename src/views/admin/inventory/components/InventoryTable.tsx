@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Dropdown, MenuProps, Row, Space, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/es/table';
 import { DownOutlined } from '@ant-design/icons';
@@ -10,14 +10,6 @@ interface DataType {
   amount: number;
   unit: string;
 }
- function  handelDropDownClick(e:any){
-  console.log(e);
-  
-}
-
-const handleMenuClick: MenuProps['onClick'] = (e) => {
-  console.log('click', e);
-};
 const columns: ColumnsType<DataType> = [
   {
     title: 'Name',
@@ -35,7 +27,6 @@ const columns: ColumnsType<DataType> = [
   },
 ];
 
-
 const onChange: TableProps<DataType>['onChange'] = (
   pagination,
   filters,
@@ -44,22 +35,27 @@ const onChange: TableProps<DataType>['onChange'] = (
 ) => {
   console.log('params', pagination, filters, sorter, extra);
 };
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Button className='dropDown-button'  type="text" onClick={() => console.log('Chief')}>Chief</Button>,
-  },
-  {
-    key: '2',
-    label:<Button className='dropDown-button'   type="text" onClick={() => console.log('Barista')}>Barista</Button>,
-  },
-  {
-    key: '3',
-    label: <Button className='dropDown-button'  type="text" onClick={() => console.log('Store')}>Store</Button>,
-  },
-];
+
 const InventoryTable  =(props:{tableData:any,})=> {
   const {tableData}=props;
+  const [inventoryName,setInventoryName]=useState("")
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <Button className='dropDown-button'  type="text" onClick={() => setInventoryName('Chief')}>Chief</Button>,
+    },
+    {
+      key: '2',
+      label:<Button className='dropDown-button'   type="text" onClick={() => setInventoryName('Barista')}>Barista</Button>,
+    },
+    {
+      key: '3',
+      label: <Button className='dropDown-button'  type="text" onClick={() => setInventoryName('Store')}>Store</Button>,
+    },
+  ];
+
+ 
+  
   return(
     <div className='center-div'>
        <Dropdown
@@ -74,7 +70,7 @@ const InventoryTable  =(props:{tableData:any,})=> {
       <DownOutlined />
     </Space>
   </Dropdown>
-    <p className='order-grid-headers'>Items available in the kitchen for chief</p> 
+    <p className='order-grid-headers'>Items available for {inventoryName}</p> 
     <Table className='ant-table-thead ant-table-cell' columns={columns} dataSource={tableData} onChange={onChange} />
    </div>
   );

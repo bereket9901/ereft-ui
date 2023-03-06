@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import { Button,Card, Row, Col } from 'antd';
 import axios from 'axios';
 import { apiBaseUrl, options } from 'config';
-const apiOrderUrl=`${apiBaseUrl}/Order`;
+const apiOrderUrl=`${apiBaseUrl}/Order/updateKitchenOrderDelivered`;
 
 function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
 
@@ -10,7 +10,6 @@ function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
   const itemsData=data.items;
   const chiefOrder=itemsData.filter((item:any)=>item.isChiefOrder==true);
   const baristaOrder=itemsData.filter((item:any)=>item.isChiefOrder==false);
-  const [order, setOrder]=useState(0);
 
   function handelOrderDone()
  {

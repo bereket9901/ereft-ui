@@ -14,8 +14,8 @@ const OrderPage: React.FC = () => {
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [menu, setMenu]=useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const apiUrlCategory = `${apiBaseUrl}/Category`;
-  const apiUrlOrder=`${apiBaseUrl}/Order`;
+  const apiUrlCategory = `${apiBaseUrl}/Category/GetCategories`;
+  const apiUrlOrder=`${apiBaseUrl}/Order/createOrder`;
  
   useEffect(() => {
     var total=0;

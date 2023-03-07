@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -11,22 +11,12 @@ import {
   MenuProps,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { apiBaseUrl, options } from "config";
 const { Option } = Select;
+const apiCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
+const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
 
-const itemOption = [
-  {
-    name: "Meat",
-    value: "meat",
-  },
-  {
-    name: "Onion",
-    value: "onion",
-  },
-  {
-    name: "Tomato",
-    value: "tomato",
-  },
-];
 type Unit = "kg" | "pic" | "lt";
 
 interface AmountValue {
@@ -35,11 +25,12 @@ interface AmountValue {
 }
 
 interface AmountInputProps {
+  option?:any;
   value?: AmountValue;
   onChange?: (value: AmountValue) => void;
 }
 
-const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange }) => {
+const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange, option }) => {
   const [number, setNumber] = useState(0);
   const [unit, setUnit] = useState<Unit>("kg");
 
@@ -96,44 +87,42 @@ const checkPrice = (_: any, value: { number: number }) => {
   return Promise.reject(new Error("Amount must be greater than zero!"));
 };
 
-const kitchenItemRequestForm = () => {
+const ItemRequestForm = () => {
   const [requestFormName, setRequestFormName] = useState("");
+  const [RequestCategory, setRequestCategory] = useState([]);
+  const [ItemWithCategory, setItemWithCategory] = useState([]);
+  const fetchRequestCategory = () => {
+    axios.get(apiCategory, options).then((result) => {
+      setRequestCategory(result.data);
+    });
+  };
+  const fetchItemWithCategory = async (categoryId: any) => {
+    await axios
+      .get(apiItemWithCategory.concat(categoryId), options)
+      .then((result) => {
+        setItemWithCategory(result.data);
+      });
+  };
+
+  useEffect(() => {
+    fetchRequestCategory();
+  }, []);
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: (
+      label: RequestCategory.map((item: any, index: number) => (
         <Button
+          key={index}
           className="dropDown-button"
           type="text"
-          onClick={() => setRequestFormName("Chief")}
+          onClick={() => {
+            fetchItemWithCategory(item.id);
+            setRequestFormName(item.name);
+          }}
         >
-          Chief
+          {item.name}
         </Button>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <Button
-          className="dropDown-button"
-          type="text"
-          onClick={() => setRequestFormName("Barista")}
-        >
-          Barista
-        </Button>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <Button
-          className="dropDown-button"
-          type="text"
-          onClick={() => setRequestFormName("Store")}
-        >
-          Store
-        </Button>
-      ),
+      )),
     },
   ];
   return (
@@ -142,8 +131,6 @@ const kitchenItemRequestForm = () => {
         <Dropdown
           menu={{
             items,
-            selectable: true,
-            defaultSelectedKeys: ["1"],
           }}
         >
           <Space className="ordered-item-card-text">
@@ -175,9 +162,13 @@ const kitchenItemRequestForm = () => {
                       rules={[{ required: true, message: "Missing Item type" }]}
                     >
                       {/* <Input placeholder="Item Type" /> */}
-                      <Select showSearch placeholder="Item Type">
-                        {itemOption.map((option: any, index: number) => (
-                          <Option key={index} value={option.value}>
+                      <Select
+                        className="SelectItem"
+                        showSearch
+                        placeholder="Item Type"
+                      >
+                        {ItemWithCategory.map((option: any, index: number) => (
+                          <Option key={index} value={option.name}>
                             {option.name}
                           </Option>
                         ))}
@@ -188,7 +179,7 @@ const kitchenItemRequestForm = () => {
                       {...restField}
                       rules={[{ validator: checkPrice }]}
                     >
-                      <AmountInput />
+                        <AmountInput />             
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>
@@ -212,4 +203,4 @@ const kitchenItemRequestForm = () => {
   );
 };
 
-export default kitchenItemRequestForm;
+export default ItemRequestForm;

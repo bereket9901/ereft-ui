@@ -264,4 +264,6 @@ z-index: -1;
   font-size: 14px;
   font-weight: 500;
 }
-
+.SelectItem{
+  width:250px !important;
+}

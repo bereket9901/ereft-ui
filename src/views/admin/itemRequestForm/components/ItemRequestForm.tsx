@@ -9,88 +9,62 @@ import {
   Select,
   Dropdown,
   MenuProps,
+  Modal,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { apiBaseUrl, options } from "config";
+import AmountInput from "./AmountInput";
 const { Option } = Select;
 const apiCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
+const apiUpdateInventory = `${apiBaseUrl}/Inventory/updateInventory`;
 const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
 
-type Unit = "kg" | "pic" | "lt";
-
-interface AmountValue {
-  number?: number;
-  unit?: Unit;
-}
-
-interface AmountInputProps {
-  option?:any;
-  value?: AmountValue;
-  onChange?: (value: AmountValue) => void;
-}
-
-const AmountInput: React.FC<AmountInputProps> = ({ value = {}, onChange, option }) => {
-  const [number, setNumber] = useState(0);
-  const [unit, setUnit] = useState<Unit>("kg");
-
-  const triggerChange = (changedValue: { number?: number; unit?: Unit }) => {
-    onChange?.({ number, unit, ...value, ...changedValue });
-  };
-
-  const onNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newNumber = parseInt(e.target.value || "0", 10);
-    if (Number.isNaN(number)) {
-      return;
-    }
-    if (!("number" in value)) {
-      setNumber(newNumber);
-    }
-    triggerChange({ number: newNumber });
-  };
-
-  const onUnitChange = (newUnit: Unit) => {
-    if (!("unit" in value)) {
-      setUnit(newUnit);
-    }
-    triggerChange({ unit: newUnit });
-  };
-  return (
-    <span>
-      <Input
-        placeholder="amount"
-        type="text"
-        value={value.number || number}
-        onChange={onNumberChange}
-        style={{ width: 100 }}
-      />
-      <Select
-        value={value.unit || unit}
-        style={{ width: 80, margin: "0 8px" }}
-        onChange={onUnitChange}
-      >
-        <Option value="kg">kg</Option>
-        <Option value="pic">pic</Option>
-        <Option value="lt">lt</Option>
-      </Select>
-    </span>
-  );
-};
-const onFinish = (values: any) => {
-  console.log("Received values of form:", values);
-};
-
-const checkPrice = (_: any, value: { number: number }) => {
-  if (value.number > 0) {
-    return Promise.resolve();
-  }
-  return Promise.reject(new Error("Amount must be greater than zero!"));
-};
 
 const ItemRequestForm = () => {
-  const [requestFormName, setRequestFormName] = useState("");
+  const [selectedItemCategory, setSelectedItemCategory] = useState(null);
   const [RequestCategory, setRequestCategory] = useState([]);
   const [ItemWithCategory, setItemWithCategory] = useState([]);
+  const onFinish = (values: any) => {
+    const modalText='Request success!'  
+    var requestModel = {
+      categoryId: selectedItemCategory?.id,
+      items: values.RequestedItems.map((item:any) =>
+         {
+          return {
+            itemId: item.itemType,
+            amount: item.itemAmount.number
+          }    
+        }
+      )
+    }
+  
+    if(values.RequestedItems!= null ? values.RequestedItems.length>0:false)
+    {
+    console.log(values); 
+    // <Modal
+    //       title="Title"
+    //       open={true}
+    //       onOk={()=>{false}}
+    //     >
+    //       <p>{modalText}</p>
+    //     </Modal>
+    }
+
+    axios.put(apiUpdateInventory,requestModel,options).then((result)=>{
+      if(result){
+       
+      }
+      console.log(result.data);
+    }).catch(error=>{console.log(error)});
+
+
+  };
+  
+  
+ 
+ 
+ 
   const fetchRequestCategory = () => {
     axios.get(apiCategory, options).then((result) => {
       setRequestCategory(result.data);
@@ -117,7 +91,7 @@ const ItemRequestForm = () => {
           type="text"
           onClick={() => {
             fetchItemWithCategory(item.id);
-            setRequestFormName(item.name);
+            setSelectedItemCategory(item);
           }}
         >
           {item.name}
@@ -125,6 +99,12 @@ const ItemRequestForm = () => {
       )),
     },
   ];
+  const checkPrice = (_: any, value: { number: number }) => {
+    if (value.number > 0) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error("Amount must be greater than zero!"));
+  };
   return (
     <>
       <div className="center-div">
@@ -139,7 +119,7 @@ const ItemRequestForm = () => {
           </Space>
         </Dropdown>
       </div>
-      <p className="login-header-text">{requestFormName} Request Form</p>
+      <p className="login-header-text">{selectedItemCategory?.name} Request Form</p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
         <Form
           name="dynamic_form_nest_item"
@@ -168,7 +148,7 @@ const ItemRequestForm = () => {
                         placeholder="Item Type"
                       >
                         {ItemWithCategory.map((option: any, index: number) => (
-                          <Option key={index} value={option.name}>
+                          <Option key={index} value={option.id}>
                             {option.name}
                           </Option>
                         ))}

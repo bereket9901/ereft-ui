@@ -267,3 +267,12 @@ z-index: -1;
 .SelectItem{
   width:250px !important;
 }
+/* request approval */
+ .request-approval-reject-button{
+  background-color:red;
+  color:white;
+ } 
+ .request-approval-Approve-button{
+  background-color:green;
+  color:white;
+ } 

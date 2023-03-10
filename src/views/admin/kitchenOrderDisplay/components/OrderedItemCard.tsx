@@ -17,7 +17,6 @@ function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
     if(result){
       fetchKitchenOrders();
     }
-    console.log(result.data);
   }).catch(error=>{console.log(error)});
  }
   return(

@@ -17,54 +17,41 @@ import { apiBaseUrl, options } from "config";
 import AmountInput from "./AmountInput";
 const { Option } = Select;
 const apiCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
-const apiUpdateInventory = `${apiBaseUrl}/Inventory/updateInventory`;
+const apiCreateRequest = `${apiBaseUrl}/Request/createRequest`;
 const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
-
 
 const ItemRequestForm = () => {
   const [selectedItemCategory, setSelectedItemCategory] = useState(null);
   const [RequestCategory, setRequestCategory] = useState([]);
   const [ItemWithCategory, setItemWithCategory] = useState([]);
   const onFinish = (values: any) => {
-    const modalText='Request success!'  
     var requestModel = {
+      createdBy: 1,
       categoryId: selectedItemCategory?.id,
-      items: values.RequestedItems.map((item:any) =>
-         {
-          return {
-            itemId: item.itemType,
-            amount: item.itemAmount.number
-          }    
-        }
-      )
+      requestItems: values.RequestedItems.map((item: any) => {
+        return {
+          itemId: item.itemType,
+          amount: item.itemAmount.number,
+        };
+      }),
+    };
+
+    if (
+      values.RequestedItems != null ? values.RequestedItems.length > 0 : false
+    ) {
+      console.log(values);
+      axios
+        .post(apiCreateRequest, requestModel, options)
+        .then((result) => {
+          if (result) {
+          }
+          console.log(result.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  
-    if(values.RequestedItems!= null ? values.RequestedItems.length>0:false)
-    {
-    console.log(values); 
-    // <Modal
-    //       title="Title"
-    //       open={true}
-    //       onOk={()=>{false}}
-    //     >
-    //       <p>{modalText}</p>
-    //     </Modal>
-    }
-
-    axios.put(apiUpdateInventory,requestModel,options).then((result)=>{
-      if(result){
-       
-      }
-      console.log(result.data);
-    }).catch(error=>{console.log(error)});
-
-
   };
-  
-  
- 
- 
- 
   const fetchRequestCategory = () => {
     axios.get(apiCategory, options).then((result) => {
       setRequestCategory(result.data);
@@ -119,7 +106,9 @@ const ItemRequestForm = () => {
           </Space>
         </Dropdown>
       </div>
-      <p className="login-header-text">{selectedItemCategory?.name} Request Form</p>
+      <p className="login-header-text">
+        {selectedItemCategory?.name} Request Form
+      </p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
         <Form
           name="dynamic_form_nest_item"
@@ -159,7 +148,7 @@ const ItemRequestForm = () => {
                       {...restField}
                       rules={[{ validator: checkPrice }]}
                     >
-                        <AmountInput />             
+                      <AmountInput />
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>

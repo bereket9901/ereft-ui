@@ -1,12 +1,14 @@
 import { Icon } from '@chakra-ui/react';
-import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart } from 'react-icons/md';
+import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart, MdApproval } from 'react-icons/md';
 // Admin Imports
 import Order from 'views/admin/cashierOrderPage';
 import Ordered from 'views/admin/kitchenOrderDisplay';
 import Inventory from 'views/admin/inventory';
 import ItemRequestForm from 'views/admin/itemRequestForm';
+import RequestApproval from 'views/admin/requestApproval';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
+
 
 const routes = [
 	{
@@ -38,6 +40,13 @@ const routes = [
 		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
 		path: '/item-request-form',
 		component: ItemRequestForm
+	},
+	{
+		name: 'Request Approval',
+		layout: '/admin',
+		icon: <Icon as={MdApproval} width='20px' height='20px' color='inherit' />,
+		path: '/request-approval',
+		component: RequestApproval
 	},
 	{
 		name: 'Sign In',

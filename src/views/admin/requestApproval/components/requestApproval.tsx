@@ -11,15 +11,22 @@ const RequestApproval = () => {
   const [requestData, setRequestData] = useState([]);
   const [tableData, setTableData] = useState([]);
 function handelRejectButton(value:any){
-  axios.put(apiUpdateRequestUrl,Request.Reject,options).then((result)=>{
-    
+  const updateRequestModel={
+    requestId:value,
+    requestStatusId:Request.Reject
+  }
+  axios.put(apiUpdateRequestUrl,updateRequestModel,options).then((result)=>{
     if(result){
       fetchRequests();
     }
-  }).catch(error=>{console.log(value)});
+  }).catch(error=>{console.log(error)});
 }
 function handelApproveButton(value:any){
-  axios.put(apiUpdateRequestUrl,Request.Approve,options).then((result)=>{
+  const updateRequestModel={
+    requestId:value,
+    requestStatusId:Request.Approve
+  }
+  axios.put(apiUpdateRequestUrl,updateRequestModel,options).then((result)=>{
     if(result){
       fetchRequests();
     }
@@ -35,11 +42,11 @@ function handelApproveButton(value:any){
       title: "Action",
       dataIndex: "",
       key: "x",
-      render: () => {
+      render: (record: any) => {
         return (
           <Space>
-            <Button onClick={()=>handelApproveButton(tableData)} className="request-approval-Approve-button">Approve</Button>
-            <Button onClick={()=>handelRejectButton(tableData)} className="request-approval-reject-button">Reject</Button>
+            <Button onClick={()=>handelApproveButton(record.requestId)} className="request-approval-Approve-button">Approve</Button>
+            <Button onClick={()=>handelRejectButton(record.requestId)} className="request-approval-reject-button">Reject</Button>
           </Space>
         );
       },
@@ -76,16 +83,12 @@ function handelApproveButton(value:any){
     <Table
       columns={columns}
       expandable={{ 
-        expandRowByClick:true,	
         expandedRowRender: (record) => (
           <Table
             style={{ width: "20%" }}
             columns={expandTableColumns}
             pagination={false}
             dataSource={record.description}
-            onRow={(r) => ({
-              onClick: () => console.log(r.key),
-           })}
           />
         ),
       }}

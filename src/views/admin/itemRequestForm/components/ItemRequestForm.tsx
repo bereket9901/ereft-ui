@@ -10,6 +10,7 @@ import {
   Dropdown,
   MenuProps,
   Modal,
+  notification,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -24,7 +25,10 @@ const ItemRequestForm = () => {
   const [selectedItemCategory, setSelectedItemCategory] = useState(null);
   const [RequestCategory, setRequestCategory] = useState([]);
   const [ItemWithCategory, setItemWithCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const onFinish = (values: any) => {
+    setIsLoading(true);
     var requestModel = {
       createdBy: 1,
       categoryId: selectedItemCategory?.id,
@@ -43,9 +47,11 @@ const ItemRequestForm = () => {
       axios
         .post(apiCreateRequest, requestModel, options)
         .then((result) => {
-          if (result) {
+      if (result) {
+            setIsLoading(false);
+            openNotification();
           }
-          console.log(result.data);
+          
         })
         .catch((error) => {
           console.log(error);
@@ -91,6 +97,12 @@ const ItemRequestForm = () => {
       return Promise.resolve();
     }
     return Promise.reject(new Error("Amount must be greater than zero!"));
+  };
+  const openNotification = () => {
+    notification.success({
+      message: 'Created request successfully!',
+      placement:'bottomRight'
+  });
   };
   return (
     <>
@@ -162,7 +174,7 @@ const ItemRequestForm = () => {
             )}
           </Form.List>
           <Form.Item>
-            <Button className="login-form-button" htmlType="submit">
+            <Button loading={isLoading} className="login-form-button" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

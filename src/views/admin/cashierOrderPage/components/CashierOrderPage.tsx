@@ -102,10 +102,8 @@ function handelButtonOrder():any
         return console.log("error");
       }
       else{
-      console.log(result.data)
       setOrdered([]);
       setIsLoading(false);
-
       }
     });
   }

@@ -276,3 +276,10 @@ z-index: -1;
   background-color:green;
   color:white;
  } 
+ .switch{
+  display: inline-block;
+ }
+ .switch-text{
+  display: inline-block;
+  margin: 10px;
+ }

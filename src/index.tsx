@@ -6,6 +6,13 @@ import AuthLayout from './layouts/auth';
 import AdminLayout from './layouts/admin';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from './theme/theme';
+import {setAuthToken} from './helpers/setAuthToken'
+
+  //check jwt token
+  const token = localStorage.getItem("token");
+  if (token) {
+      setAuthToken(token);
+  }
 
 ReactDOM.render(
 	<ChakraProvider theme={theme}>

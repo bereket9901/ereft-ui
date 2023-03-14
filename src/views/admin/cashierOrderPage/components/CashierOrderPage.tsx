@@ -26,10 +26,15 @@ const OrderPage: React.FC = () => {
 
   useEffect(()=>{
     axios.get(apiUrlCategory,options).then((result)=>{
-      setMenu(result.data);
+      SetOrderMenuData(result.data);
     });
   },[])
   
+  function SetOrderMenuData(data:any){
+     setMenu(data);
+     handelMainMenuClick(data[0]);
+     handelSubMenuClick(data[0].groups[0]);
+  }
   
   function handelMainMenuClick(item:any):any
   {

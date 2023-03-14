@@ -17,7 +17,8 @@ const routes = [
 		layout: '/admin',
 		path: '/order-page',
 		icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-		component: Order
+		component: Order,
+		allowedRoles:['Cashier']
 	},
 	{
 		name: 'Ordered Display',
@@ -25,7 +26,8 @@ const routes = [
 		path: '/order-display',
 		icon: <Icon as={MdOutlineShoppingCart} width='20px' height='20px' color='inherit' />,
 		component: Ordered,
-		secondary: true
+		secondary: true,
+		allowedRoles:['Barista', 'Chief']
 	},
 	
 	{
@@ -33,35 +35,40 @@ const routes = [
 		layout: '/admin',
 		path: '/inventory',
 		icon: <Icon as={MdOutlineInventory2} width='20px' height='20px' color='inherit' />,
-		component: Inventory
+		component: Inventory,
+		allowedRoles:['Barista', 'Chief', 'StoreManager']
 	},
 	{
 		name: 'Item Request',
 		layout: '/admin',
 		icon: <Icon as={MdOutlineInventory} width='20px' height='20px' color='inherit' />,
 		path: '/item-request-form',
-		component: ItemRequestForm
+		component: ItemRequestForm,
+		allowedRoles:['Barista', 'Chief', 'StoreManager']
 	},
 	{
 		name: 'Item Remaining',
 		layout: '/admin',
 		icon: <Icon as={MdOutlineInventory} width='20px' height='20px' color='inherit' />,
 		path: '/item-remaining-form',
-		component: ItemRemainingForm
+		component: ItemRemainingForm,
+		allowedRoles:['Barista', 'Chief', 'StoreManager']
 	},
 	{
 		name: 'Request Approval',
 		layout: '/admin',
 		icon: <Icon as={MdApproval} width='20px' height='20px' color='inherit' />,
 		path: '/request-approval',
-		component: RequestApproval
+		component: RequestApproval,
+		allowedRoles:['StoreManager']
 	},
 	{
 		name: 'Sign In',
 		layout: '/auth',
 		path: '/sign-in',
 		icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
-		component: SignInCentered
+		component: SignInCentered,
+		allowedRoles:[]
 	},
 ];
 

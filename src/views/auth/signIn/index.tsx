@@ -12,6 +12,7 @@ import axios from "axios";
 import { apiBaseUrl, options } from "config";
 import routes from "routes";
 import AdminLayout from '../../../layouts/admin';
+import { setAuthToken } from "helpers/setAuthToken";
 const apiLogInUrl = `${apiBaseUrl}/Authentication/login`;
 
 function SignIn() {
@@ -22,18 +23,7 @@ function SignIn() {
   const textColorBrand = useColorModeValue("brand.500", "white");
   const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
- 
-   
-  
-  const getRoutes = (routes: RoutesType[]): any => {
-		return routes.map((route: RoutesType, key: any) => {
-			if (true) {
-				return <Route path={route.layout + route.path} component={route.component} key={key} />;
-			} else {
-				return null;
-			}
-		});
-	};
+
   const handelSignInButton = (value: any) => {
     setIsLoading(true);
     const userCredential = {
@@ -43,12 +33,14 @@ function SignIn() {
     axios
       .post(apiLogInUrl, userCredential, options)
       .then((result) => {
-        const serializedState = result.data;
-        localStorage.setItem("token", serializedState.token);
-        localStorage.setItem("role", serializedState.roles);
-        {
+       
           if (result.status === 200) {
+            const serializedState = result.data;
+            localStorage.setItem("token", serializedState.token);
+            localStorage.setItem("role", serializedState.roles);
+            {
             setIsLoading(false);
+            setAuthToken(serializedState.token);
             history.push("/admin");
             
           }

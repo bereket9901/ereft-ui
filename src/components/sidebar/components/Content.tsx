@@ -14,13 +14,27 @@ function SidebarContent(props: { routes: RoutesType[] }) {
 			<Brand />
 			<Stack direction='column' mt='8px' mb='auto'>
 				<Box ps='20px' pe={{ lg: '16px', '2xl': '16px' }}>
-					<Links routes={routes} />
+			      	
+					<Links routes={FilterRoutesByRole(routes)} />
 				</Box>
 			</Stack>
 
 
 		</Flex>
 	);
+}
+
+function FilterRoutesByRole(routes:RoutesType[]):RoutesType[]{
+
+  var roles = localStorage.getItem('role');
+  let route:RoutesType[] = [];
+  var rolesArray = roles.split(',');
+  routes.forEach(element => {
+	if(rolesArray.some(r=> element.allowedRoles.includes(r))){		
+		route.push(element);
+	}
+  });
+  return route;
 }
 
 export default SidebarContent;

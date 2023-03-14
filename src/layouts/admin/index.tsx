@@ -55,6 +55,20 @@ export default function Dashboard(props: { [x: string]: any }) {
 			}
 		});
 	};
+
+	function getFirstRoute(routes:RoutesType[]):string{
+
+		var roles = localStorage.getItem('role');
+		let route:RoutesType[] = [];
+		var rolesArray = roles.split(',');
+		routes.forEach(element => {
+		  if(rolesArray.some(r=> element.allowedRoles.includes(r))){		
+			  route.push(element);
+		  }
+		});
+		return route[0].layout + route[0].path;
+	}
+
 	document.documentElement.dir = 'ltr';
 	const { onOpen } = useDisclosure();
 	return (
@@ -96,7 +110,7 @@ export default function Dashboard(props: { [x: string]: any }) {
 						<Box mx='auto' p={{ base: '20px', md: '30px' }} pe='20px' minH='100vh' pt='50px'>
 							<Switch>
 								{getRoutes(routes)}
-								<Redirect from='/admin' to='/admin/order-page'/>
+								<Redirect from='/admin' to={getFirstRoute(routes)}/>
 							</Switch>
 						</Box>
 					) : null}

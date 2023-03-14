@@ -3,7 +3,7 @@ import { Portal, Box, useDisclosure } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
 // Layout components
 import Navbar from 'components/navbar/NavbarAdmin';
-import Sidebar, { SidebarResponsive } from 'components/sidebar/Sidebar';
+import { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
 import { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -82,7 +82,7 @@ export default function Dashboard(props: { [x: string]: any }) {
 						<Box>
 							<Navbar
 								onOpen={onOpen}
-								logoText={'Horizon UI Dashboard PRO'}
+								logoText={'Dashboard'}
 								brandText={getActiveRoute(routes)}
 								secondary={getActiveNavbar(routes)}
 								message={getActiveNavbarText(routes)}
@@ -96,7 +96,7 @@ export default function Dashboard(props: { [x: string]: any }) {
 						<Box mx='auto' p={{ base: '20px', md: '30px' }} pe='20px' minH='100vh' pt='50px'>
 							<Switch>
 								{getRoutes(routes)}
-								<Redirect from='/' to='/admin/order-page'/>
+								<Redirect from='/admin' to='/admin/order-page'/>
 							</Switch>
 						</Box>
 					) : null}

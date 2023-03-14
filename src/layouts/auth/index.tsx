@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import routes from 'routes';
-
 // Chakra imports
 import { Box, useColorModeValue } from '@chakra-ui/react';
-
 // Layout components
 import { SidebarContext } from 'contexts/SidebarContext';
-
 // Custom Chakra theme
 export default function Auth() {
 	// states and functions
@@ -55,7 +52,7 @@ export default function Auth() {
 						<Box mx='auto' minH='100vh'>
 							<Switch>
 								{getRoutes(routes)}
-								<Redirect from='/auth' to='/auth/sign-in/default
+								<Redirect from='/' to='/auth/sign-in/default
                   ' />
 							</Switch>
 						</Box>

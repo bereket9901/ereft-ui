@@ -62,8 +62,8 @@ const ItemRequestForm = () => {
         });
     }
     else{
-        openNotification(false),
-        setIsLoading(false)
+        openNotification(false);
+        setIsLoading(false);
       }
   };
   const fetchRequestCategory = () => {

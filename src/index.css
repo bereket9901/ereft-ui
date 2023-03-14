@@ -283,3 +283,7 @@ z-index: -1;
   display: inline-block;
   margin: 10px;
  }
+ .ant-table-content{
+   font-family: DM Sans;
+   font-size: 16px;
+ }

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Form,
-  Input,
   Space,
   Card,
   Select,
   Dropdown,
   MenuProps,
-  Modal,
   notification,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -20,16 +17,17 @@ const { Option } = Select;
 const apiCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
 const apiCreateRequest = `${apiBaseUrl}/Request/createRequest`;
 const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
+const apiInventoryUrl = `${apiBaseUrl}/Inventory/GetInventory?categoryId=`;
 
-const ItemRequestForm = () => {
+const ItemRemainingForm = () => {
   const [selectedItemCategory, setSelectedItemCategory] = useState(null);
-  const [RequestCategory, setRequestCategory] = useState([]);
+  const [category, setCategory] = useState([]);
   const [ItemWithCategory, setItemWithCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentInventory, setCurrentInventory] = useState([]);
 
   const onFinish = (values: any) => {
     setIsLoading(true);
-    
 
     if (
       values.RequestedItems != null ? values.RequestedItems.length > 0 : false
@@ -47,28 +45,31 @@ const ItemRequestForm = () => {
       axios
         .post(apiCreateRequest, requestModel, options)
         .then((result) => {
-      if (result) {
-        
+          if (result) {
             setIsLoading(false);
             openNotification(true);
-      
           }
-          
         })
         .catch((error) => {
-          openNotification(false);
           console.log(error);
-          
+          setIsLoading(false);
+          openNotification(false);
         });
     }
     else{
-        openNotification(false),
-        setIsLoading(false)
-      }
+    setIsLoading(false);
+    openNotification(false);
+    }
   };
-  const fetchRequestCategory = () => {
+  const fetchCategory = () => {
     axios.get(apiCategory, options).then((result) => {
-      setRequestCategory(result.data);
+      setCategory(result.data);
+    });
+  };
+
+  const fetchInventoryData = (categoryId: any) => {
+    axios.get(apiInventoryUrl.concat(categoryId), options).then((result) => {
+      setCurrentInventory(result.data);
     });
   };
   const fetchItemWithCategory = async (categoryId: any) => {
@@ -80,12 +81,13 @@ const ItemRequestForm = () => {
   };
 
   useEffect(() => {
-    fetchRequestCategory();
-  }, []);
+    fetchCategory();
+    fetchInventoryData(selectedItemCategory);
+  }, [selectedItemCategory]);
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: RequestCategory.map((item: any, index: number) => (
+      label: category.map((item: any, index: number) => (
         <Button
           key={index}
           className="dropDown-button"
@@ -110,15 +112,14 @@ const ItemRequestForm = () => {
     if(value){
       return(
     notification.success({
-      message: 'Created request successfully!',
+      message: 'Created update successfully!',
       placement:'bottomRight'
   }));}
-  else if(value==false){
+  else if (value==false){
   notification.error({
-    message: 'Unable to created request!',
+    message: 'Unable to created update!',
     placement:'bottomRight'
-});
-  }
+});}
   };
   return (
     <>
@@ -129,23 +130,24 @@ const ItemRequestForm = () => {
           }}
         >
           <Space className="ordered-item-card-text">
-            Request For
+            Remaining For
             <DownOutlined />
           </Space>
         </Dropdown>
       </div>
       <p className="login-header-text">
-        {selectedItemCategory?.name} Request Form
+        {selectedItemCategory?.name} Remaining Item Form
       </p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
         <Form
+        fields={currentInventory}
           name="dynamic_form_nest_item"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
           autoComplete="off"
         >
           <Form.List name="RequestedItems">
-            {(fields, { add, remove }) => (
+            {(fields) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
                   <Space
@@ -166,7 +168,7 @@ const ItemRequestForm = () => {
                       >
                         {ItemWithCategory.map((option: any, index: number) => (
                           <Option key={index} value={option.id}>
-                            {option.name}
+                            {option.name} 
                           </Option>
                         ))}
                       </Select>
@@ -178,19 +180,17 @@ const ItemRequestForm = () => {
                     >
                       <AmountInput />
                     </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>
                 ))}
-                <Form.Item>
-                  <Button onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add Item
-                  </Button>
-                </Form.Item>
               </>
             )}
           </Form.List>
           <Form.Item>
-            <Button loading={isLoading} className="login-form-button" htmlType="submit">
+            <Button
+              loading={isLoading}
+              className="login-form-button"
+              htmlType="submit"
+            >
               Submit
             </Button>
           </Form.Item>
@@ -200,4 +200,4 @@ const ItemRequestForm = () => {
   );
 };
 
-export default ItemRequestForm;
+export default ItemRemainingForm;

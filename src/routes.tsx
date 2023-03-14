@@ -1,5 +1,5 @@
 import { Icon } from '@chakra-ui/react';
-import { MdBarChart, MdPerson, MdHome, MdLock, MdOutlineShoppingCart, MdApproval } from 'react-icons/md';
+import {MdHome, MdLock, MdOutlineShoppingCart, MdApproval, MdOutlineInventory, MdOutlineInventory2 } from 'react-icons/md';
 // Admin Imports
 import Order from 'views/admin/cashierOrderPage';
 import Ordered from 'views/admin/kitchenOrderDisplay';
@@ -8,6 +8,7 @@ import ItemRequestForm from 'views/admin/itemRequestForm';
 import RequestApproval from 'views/admin/requestApproval';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
+import ItemRemainingForm from 'views/admin/itemRemainingForm';
 
 
 const routes = [
@@ -31,15 +32,22 @@ const routes = [
 		name: 'Inventory',
 		layout: '/admin',
 		path: '/inventory',
-		icon: <Icon as={MdPerson} width='20px' height='20px' color='inherit' />,
+		icon: <Icon as={MdOutlineInventory2} width='20px' height='20px' color='inherit' />,
 		component: Inventory
 	},
 	{
 		name: 'Item Request',
 		layout: '/admin',
-		icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
+		icon: <Icon as={MdOutlineInventory} width='20px' height='20px' color='inherit' />,
 		path: '/item-request-form',
 		component: ItemRequestForm
+	},
+	{
+		name: 'Item Remaining',
+		layout: '/admin',
+		icon: <Icon as={MdOutlineInventory} width='20px' height='20px' color='inherit' />,
+		path: '/item-remaining-form',
+		component: ItemRemainingForm
 	},
 	{
 		name: 'Request Approval',

@@ -21,10 +21,11 @@ import React from 'react';
 import { MdNotificationsNone, MdInfoOutline } from 'react-icons/md';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import routes from 'routes';
+import { useHistory } from 'react-router-dom';
+
 export default function HeaderLinks(props: { secondary: boolean }) {
 	const { secondary } = props;
 	const { colorMode, toggleColorMode } = useColorMode();
-	// Chakra Color Mode
 	const navbarIcon = useColorModeValue('gray.400', 'white');
 	let menuBg = useColorModeValue('white', 'navy.800');
 	const textColor = useColorModeValue('secondaryGray.900', 'white');
@@ -34,6 +35,13 @@ export default function HeaderLinks(props: { secondary: boolean }) {
 		'14px 17px 40px 4px rgba(112, 144, 176, 0.06)'
 	);
 	const borderButton = useColorModeValue('secondaryGray.500', 'whiteAlpha.200');
+	let history = useHistory();
+	
+	
+	function handelLogOutButton(){
+		localStorage.clear();
+		history.push("/auth/sign-in");
+			}
 	return (
 		<Flex
 			w={{ sm: '100%', md: 'auto' }}
@@ -134,6 +142,7 @@ export default function HeaderLinks(props: { secondary: boolean }) {
 					</Flex>
 					<Flex flexDirection='column' p='10px'>
 						<MenuItem
+						    onClick={handelLogOutButton}
 							_hover={{ bg: 'none' }}
 							_focus={{ bg: 'none' }}
 							color='red.400'

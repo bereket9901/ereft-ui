@@ -35,7 +35,7 @@ const ItemRequestForm = () => {
       values.RequestedItems != null ? values.RequestedItems.length > 0 : false
     ) {
       var requestModel = {
-        createdBy: 1,
+        createdBy: localStorage.getItem('userId'),
         isRefill:true,
         categoryId: selectedItemCategory?.id,
         requestItems: values.RequestedItems.map((item: any) => {
@@ -167,7 +167,7 @@ const ItemRequestForm = () => {
                       >
                         {ItemWithCategory.map((option: any, index: number) => (
                           <Option key={index} value={option.id}>
-                            {option.name}
+                            {`${option.name} - ( ${option.measuringUnit} )`}
                           </Option>
                         ))}
                       </Select>

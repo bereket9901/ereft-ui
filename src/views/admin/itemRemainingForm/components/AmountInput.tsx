@@ -19,7 +19,7 @@ interface AmountValue {
     };
   
     const onNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newNumber = parseInt(e.target.value || "0", 10);
+      const newNumber = parseFloat(e.target.value || "0"  );
       if (Number.isNaN(number)) {
         return;
       }
@@ -32,7 +32,7 @@ interface AmountValue {
       <span>
         <Input
           placeholder="amount"
-          type="text"
+          type="number"
           value={value.number || number}
           onChange={onNumberChange}
           style={{ width: 100 }}

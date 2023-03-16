@@ -11,6 +11,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { apiBaseUrl, options } from "config";
 import { setAuthToken } from "helpers/setAuthToken";
+import logo from 'assets/img/ereft/logo ereft.png';
 const apiLogInUrl = `${apiBaseUrl}/Authentication/login`;
 
 function SignIn() {
@@ -36,6 +37,7 @@ function SignIn() {
             const serializedState = result.data;
             localStorage.setItem("token", serializedState.token);
             localStorage.setItem("role", serializedState.roles);
+            localStorage.setItem("userId", serializedState.userId);
             {
             setIsLoading(false);
             setAuthToken(serializedState.token);
@@ -66,6 +68,9 @@ function SignIn() {
         flexDirection="column"
       >
         <Box me="auto">
+          <div className="container-div">
+          <img width={180} src={logo}/> 
+          </div>
           <Heading color={textColor} fontSize="36px" mb="10px">
             Sign In
           </Heading>

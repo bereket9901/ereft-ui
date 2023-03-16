@@ -28,7 +28,7 @@ export default function Footer() {
 				{' '}
 				&copy; {new Date().getFullYear()}
 				<Text as='span' fontWeight='500' ms='4px'>
-					 All Rights Reserved. Made with love by
+					 All Rights Reserved. Made with love by Selah Technologies
 				</Text>
 			</Text>
 		</Flex>

@@ -46,11 +46,14 @@ function OrderItemCardGrid() {
     fetchKitchenOrders();
   }, []);
 
+  
   const fetchKitchenOrders = () => {
     axios.get(apiOrderUrl, options).then((result) => {
       setOrder(result.data);
     });
   };
+
+  
   return (
     <Row gutter={5}>
       <Col span={24}>

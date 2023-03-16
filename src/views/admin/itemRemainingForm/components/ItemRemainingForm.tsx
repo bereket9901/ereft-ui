@@ -67,6 +67,8 @@ const ItemRemainingForm = () => {
   const fetchCategory = () => {
     axios.get(apiCategory, options).then((result) => {
       setCategory(result.data);
+      fetchItemWithCategory(result.data[0].id);
+      setSelectedItemCategory(result.data[0]);
     });
   };
 

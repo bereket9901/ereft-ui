@@ -30,6 +30,9 @@ const RequestApproval = ( props:any) => {
   const fetchRequestCategory = async () => {
     await axios.get(apiInventoryCategory, options).then((result) => {
       setRequestCategory(result.data);
+      setRequestApprovalName(result.data[0].name);
+      fetchRequests(result.data[0].id);
+      setSelectedRequestCategory(result.data[0].id);
     });
   };
   function handelRejectButton(value: any) {

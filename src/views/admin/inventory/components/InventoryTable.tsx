@@ -51,6 +51,8 @@ useEffect(() => {
   const fetchInventoryCategory = async () => {
     await axios.get(apiInventoryCategory,options).then((result) => {
       setInventoryCategory(result.data);
+      setInventoryName(result.data[0].name);    
+      fetchInventoryData(result.data[0].id);
     });
    
   };

@@ -70,6 +70,8 @@ const ItemRequestForm = () => {
   const fetchRequestCategory = () => {
     axios.get(apiCategory, options).then((result) => {
       setRequestCategory(result.data);
+      fetchItemWithCategory(result.data[0].id);
+      setSelectedItemCategory(result.data[0]);
     });
   };
   const fetchItemWithCategory = async (categoryId: any) => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -26,6 +27,7 @@ const ItemRemainingForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentInventory, setCurrentInventory] = useState([]);
 
+
   const onFinish = (values: any) => {
     setIsLoading(true);
 
@@ -33,12 +35,13 @@ const ItemRemainingForm = () => {
       values.RequestedItems != null ? values.RequestedItems.length > 0 : false
     ) {
       var requestModel = {
-        createdBy: 1,
+        createdBy: localStorage.getItem('userId'),
+        isRefill:false,
         categoryId: selectedItemCategory?.id,
         requestItems: values.RequestedItems.map((item: any) => {
           return {
             itemId: item.itemType,
-            amount: item.itemAmount.number,
+            amount: item.itemAmount ? item.itemAmount.number: 0,
           };
         }),
       };
@@ -82,7 +85,7 @@ const ItemRemainingForm = () => {
 
   useEffect(() => {
     fetchCategory();
-    fetchInventoryData(selectedItemCategory);
+    //fetchInventoryData(selectedItemCategory);
   }, [selectedItemCategory]);
   const items: MenuProps["items"] = [
     {
@@ -139,15 +142,14 @@ const ItemRemainingForm = () => {
         {selectedItemCategory?.name} Remaining Item Form
       </p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
-        <Form
-        fields={currentInventory}
+      <Form
           name="dynamic_form_nest_item"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
           autoComplete="off"
         >
           <Form.List name="RequestedItems">
-            {(fields) => (
+            {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
                   <Space
@@ -168,7 +170,7 @@ const ItemRemainingForm = () => {
                       >
                         {ItemWithCategory.map((option: any, index: number) => (
                           <Option key={index} value={option.id}>
-                            {option.name} 
+                            {`${option.name} - ( ${option.measuringUnit} )`}
                           </Option>
                         ))}
                       </Select>
@@ -176,21 +178,23 @@ const ItemRemainingForm = () => {
                     <Form.Item
                       name={[name, "itemAmount"]}
                       {...restField}
-                      rules={[{ validator: checkPrice }]}
                     >
                       <AmountInput />
                     </Form.Item>
+
+                    <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>
                 ))}
+                <Form.Item>
+                  <Button onClick={() => add()} block icon={<PlusOutlined />}>
+                    Add Item
+                  </Button>
+                </Form.Item>
               </>
             )}
           </Form.List>
           <Form.Item>
-            <Button
-              loading={isLoading}
-              className="login-form-button"
-              htmlType="submit"
-            >
+            <Button loading={isLoading} className="login-form-button" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

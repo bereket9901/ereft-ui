@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../../../index.css";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, notification, Row } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import logo from 'assets/img/ereft/logo ereft.png';
 import axios from 'axios';
@@ -55,9 +55,9 @@ function handelSubSubMenuClick(item:any):any
 
   if(index===-1)
   {
-    
     setOrdered([{...item}, ...ordered]);//item is being cloned and added into ordered array inorder to remove the reference sharing between subsubmenu item and ordered item. having the same reference will create ambiguity if one of the two array item is manipulated both of the arrays item is updated.
   }
+
 }
 
 function handelRemoveOrder(item:any):any
@@ -104,11 +104,12 @@ function handelButtonOrder():any
  axios.post(apiUrlOrder,payload,options).then((result)=>{
       if(result.data==false){
         setIsLoading(false);
-        return console.log("error");
+        openNotification(false);
       }
       else{
       setOrdered([]);
       setIsLoading(false);
+      openNotification(true);
       }
     });
   }
@@ -116,6 +117,20 @@ function handelButtonOrder():any
     setIsLoading(false);
   }
 }
+const openNotification = (value:boolean) => {
+  if(value){
+    return(
+  notification.success({
+    message: 'Created request successfully!',
+    placement:'bottomRight'
+}));}
+else if(value==false){
+notification.error({
+  message: 'Unable to created request!',
+  placement:'bottomRight'
+});
+}
+};
   return (
     <>
       <Row>

@@ -1,5 +1,5 @@
 import { Icon } from '@chakra-ui/react';
-import {MdHome, MdLock, MdOutlineShoppingCart, MdApproval, MdOutlineInventory, MdOutlineInventory2 } from 'react-icons/md';
+import {MdLock,  MdApproval, MdOutlineInventory, MdOutlineInventory2, MdOutlineRestaurantMenu,MdOutlineRestaurant, MdAppRegistration} from 'react-icons/md';
 // Admin Imports
 import Order from 'views/admin/cashierOrderPage';
 import Ordered from 'views/admin/kitchenOrderDisplay';
@@ -9,6 +9,7 @@ import RequestApproval from 'views/admin/requestApproval';
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
 import ItemRemainingForm from 'views/admin/itemRemainingForm';
+import RemainingApproval from 'views/admin/RemainingApproval';
 
 
 const routes = [
@@ -16,7 +17,7 @@ const routes = [
 		name: 'Order Page',
 		layout: '/admin',
 		path: '/order-page',
-		icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+		icon: <Icon as={MdOutlineRestaurantMenu} width='20px' height='20px' color='inherit' />,
 		component: Order,
 		allowedRoles:['Cashier']
 	},
@@ -24,7 +25,7 @@ const routes = [
 		name: 'Ordered Display',
 		layout: '/admin',
 		path: '/order-display',
-		icon: <Icon as={MdOutlineShoppingCart} width='20px' height='20px' color='inherit' />,
+		icon: <Icon as={MdOutlineRestaurant} width='20px' height='20px' color='inherit' />,
 		component: Ordered,
 		secondary: true,
 		allowedRoles:['Barista', 'Chief']
@@ -60,6 +61,14 @@ const routes = [
 		icon: <Icon as={MdApproval} width='20px' height='20px' color='inherit' />,
 		path: '/request-approval',
 		component: RequestApproval,
+		allowedRoles:['StoreManager']
+	},
+	{
+		name: 'Remaining Approval',
+		layout: '/admin',
+		icon: <Icon as={MdAppRegistration} width='20px' height='20px' color='inherit' />,
+		path: '/remaining-item-approval',
+		component: RemainingApproval,
 		allowedRoles:['StoreManager']
 	},
 	{

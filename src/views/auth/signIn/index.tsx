@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Redirect, Route, Switch, useHistory  } from "react-router-dom";
+import { NavLink, useHistory  } from "react-router-dom";
 // Chakra imports
 import { Box, Flex, Heading, Text, useColorModeValue } from "@chakra-ui/react";
 // Custom components
@@ -10,8 +10,6 @@ import { Button, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { apiBaseUrl, options } from "config";
-import routes from "routes";
-import AdminLayout from '../../../layouts/admin';
 import { setAuthToken } from "helpers/setAuthToken";
 const apiLogInUrl = `${apiBaseUrl}/Authentication/login`;
 

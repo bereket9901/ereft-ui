@@ -16,8 +16,8 @@ import { Request } from "Enum";
 import { DownOutlined } from "@ant-design/icons";
 const apiGetRequestUrl = `${apiBaseUrl}/Request/getRequest?categoryId=`;
 const apiUpdateRequestUrl = `${apiBaseUrl}/Request/updateRequest`;
-const apiInventoryCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
-const RequestApproval = () => {
+const apiInventoryCategory = `${apiBaseUrl}/Category/GetRequestApprovalCategories`;
+const RequestApproval = ( props:any) => {
   const [tableData, setTableData] = useState([]);
   const [activeTableData, setActiveTableData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -135,7 +135,7 @@ const RequestApproval = () => {
   };
 
   const fetchRequests = (value: any) => {
-    axios.get(apiGetRequestUrl.concat(value), options).then((result) => {
+    axios.get(apiGetRequestUrl.concat(value).concat(`&isRefill=${props.Refill}`), options).then((result) => {
       var tableData = result.data.map((item: any, index: number) => {
         return {
           key: index,
@@ -194,13 +194,13 @@ const RequestApproval = () => {
           }}
         >
           <Space className="ordered-item-card-text">
-            Request Approval For
+            {props.RequestName?props.RequestName:null} Request Approval For
             <DownOutlined />
           </Space>
         </Dropdown>
       </div>
       <p className="login-header-text">
-        {requestApprovalName} Request Approval
+        {requestApprovalName} {props.RequestName?props.RequestName:null} Request Approval
       </p>
       <Table
         columns={columns}

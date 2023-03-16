@@ -1,14 +1,11 @@
-import React from 'react';
-import { Box,useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import RequestApproval from './components/requestApproval';
 
 export default function Approval() {
-	// Chakra Color Mode
-	const textColor = useColorModeValue('secondaryGray.900', 'white');
-	const textColorBrand = useColorModeValue('brand.500', 'white');
+	const IsRefill=true;
 	return (
 		<Box pt={{ base: '180px', md: '80px', xl: '80px' }}>
-			<RequestApproval />
+			<RequestApproval Refill={IsRefill} />
 		</Box>
 	);
 }

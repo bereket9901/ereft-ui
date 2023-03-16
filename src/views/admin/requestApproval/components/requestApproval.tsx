@@ -110,6 +110,7 @@ const RequestApproval = ( props:any) => {
   const expandTableColumns = [
     { title: "ItemName", dataIndex: "name", key: "name" },
     { title: "Amount", dataIndex: "amount", key: "amount" },
+    { title: "Measuring Unit", dataIndex: "measuringUnit", key: "measuringUnit" },
   ];
 
   useEffect(() => {
@@ -148,7 +149,7 @@ const RequestApproval = ( props:any) => {
             </Moment>
           ),
           description: item.items.map((item: any, index: number) => {
-            return { key: index, name: item.name, amount: item.amount };
+            return { key: index, name: item.name, amount: item.amount, measuringUnit: item.measuringUnit };
           }),
         };
       });
@@ -207,7 +208,7 @@ const RequestApproval = ( props:any) => {
         expandable={{
           expandedRowRender: (record) => (
             <Table
-              style={{ width: "20%" }}
+              style={{ width: "30%" }}
               columns={expandTableColumns}
               pagination={false}
               dataSource={record.description}

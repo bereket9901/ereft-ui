@@ -17,7 +17,7 @@ import axios from "axios";
 import { apiBaseUrl, options } from "config";
 import AmountInput from "./AmountInput";
 const { Option } = Select;
-const apiCategory = `${apiBaseUrl}/Category/GetInventoryCategories`;
+const apiCategory = `${apiBaseUrl}/Category/GetItemRequestCategories`;
 const apiCreateRequest = `${apiBaseUrl}/Request/createRequest`;
 const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
 

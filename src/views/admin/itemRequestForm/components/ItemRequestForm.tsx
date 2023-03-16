@@ -36,6 +36,7 @@ const ItemRequestForm = () => {
     ) {
       var requestModel = {
         createdBy: 1,
+        isRefill:true,
         categoryId: selectedItemCategory?.id,
         requestItems: values.RequestedItems.map((item: any) => {
           return {

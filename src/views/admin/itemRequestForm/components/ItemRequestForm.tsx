@@ -20,12 +20,16 @@ const { Option } = Select;
 const apiCategory = `${apiBaseUrl}/Category/GetItemRequestCategories`;
 const apiCreateRequest = `${apiBaseUrl}/Request/createRequest`;
 const apiItemWithCategory = `${apiBaseUrl}/Category/GetItemWithCategory?itemCategoryId=`;
+const apiInventoryUrl = `${apiBaseUrl}/Inventory/GetInventory?categoryId=`;
 
 const ItemRequestForm = () => {
   const [selectedItemCategory, setSelectedItemCategory] = useState(null);
   const [RequestCategory, setRequestCategory] = useState([]);
   const [ItemWithCategory, setItemWithCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentInventory, setCurrentInventory] = useState([]);
+  const [populateClicked, setPopulateClicked] = useState(false);
+  const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
     setIsLoading(true);
@@ -52,7 +56,7 @@ const ItemRequestForm = () => {
         
             setIsLoading(false);
             openNotification(true);
-      
+            clearForm();
           }
           
         })
@@ -67,11 +71,19 @@ const ItemRequestForm = () => {
         setIsLoading(false);
       }
   };
+
+  const fetchInventoryData = (categoryId: any) => {
+    axios.get(apiInventoryUrl.concat(categoryId), options).then((result) => {
+      setCurrentInventory(result.data);
+    });
+  };
+
   const fetchRequestCategory = () => {
     axios.get(apiCategory, options).then((result) => {
       setRequestCategory(result.data);
       fetchItemWithCategory(result.data[0].id);
       setSelectedItemCategory(result.data[0]);
+      fetchInventoryData(result.data[0].id);
     });
   };
   const fetchItemWithCategory = async (categoryId: any) => {
@@ -81,6 +93,16 @@ const ItemRequestForm = () => {
         setItemWithCategory(result.data);
       });
   };
+
+  const populateInventory = (add:any) => {
+    currentInventory.forEach(i => add({itemType: i.id}));
+    setPopulateClicked(true);
+  }
+
+  const clearForm = () => {
+    form.resetFields();
+    setPopulateClicked(false);
+  }
 
   useEffect(() => {
     fetchRequestCategory();
@@ -96,6 +118,8 @@ const ItemRequestForm = () => {
           onClick={() => {
             fetchItemWithCategory(item.id);
             setSelectedItemCategory(item);
+            fetchInventoryData(item.id);
+            clearForm();
           }}
         >
           {item.name}
@@ -142,6 +166,7 @@ const ItemRequestForm = () => {
       </p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
         <Form
+          form={form}
           name="dynamic_form_nest_item"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
@@ -187,6 +212,16 @@ const ItemRequestForm = () => {
                 <Form.Item>
                   <Button onClick={() => add()} block icon={<PlusOutlined />}>
                     Add Item
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button onClick={ () => populateInventory(add)} block disabled={populateClicked}>
+                    Populate inventory Items
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button onClick={ () => clearForm()} block>
+                    Clear
                   </Button>
                 </Form.Item>
               </>

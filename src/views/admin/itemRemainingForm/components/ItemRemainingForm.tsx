@@ -9,6 +9,7 @@ import {
   Dropdown,
   MenuProps,
   notification,
+  FormListFieldData,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -26,6 +27,8 @@ const ItemRemainingForm = () => {
   const [ItemWithCategory, setItemWithCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentInventory, setCurrentInventory] = useState([]);
+  const [populateClicked, setPopulateClicked] = useState(false);
+  const [form] = Form.useForm();
 
 
   const onFinish = (values: any) => {
@@ -51,6 +54,7 @@ const ItemRemainingForm = () => {
           if (result) {
             setIsLoading(false);
             openNotification(true);
+            clearForm();
           }
         })
         .catch((error) => {
@@ -69,6 +73,7 @@ const ItemRemainingForm = () => {
       setCategory(result.data);
       fetchItemWithCategory(result.data[0].id);
       setSelectedItemCategory(result.data[0]);
+      fetchInventoryData(result.data[0].id);
     });
   };
 
@@ -85,10 +90,20 @@ const ItemRemainingForm = () => {
       });
   };
 
+  const populateInventory = (add:any) => {
+    currentInventory.forEach(i => add({itemType: i.id}));
+    setPopulateClicked(true);
+  }
+
+  const clearForm = () => {
+    form.resetFields();
+    setPopulateClicked(false);
+  }
+
   useEffect(() => {
     fetchCategory();
     //fetchInventoryData(selectedItemCategory);
-  }, [selectedItemCategory]);
+  }, []);
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -100,6 +115,8 @@ const ItemRemainingForm = () => {
           onClick={() => {
             fetchItemWithCategory(item.id);
             setSelectedItemCategory(item);
+            fetchInventoryData(item.id);
+            clearForm();
           }}
         >
           {item.name}
@@ -145,6 +162,7 @@ const ItemRemainingForm = () => {
       </p>
       <Card className="request-form-card" style={{ maxWidth: 600 }}>
       <Form
+          form={form}
           name="dynamic_form_nest_item"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
@@ -190,6 +208,16 @@ const ItemRemainingForm = () => {
                 <Form.Item>
                   <Button onClick={() => add()} block icon={<PlusOutlined />}>
                     Add Item
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button onClick={ () => populateInventory(add)} block disabled={populateClicked}>
+                    Populate inventory Items
+                  </Button>
+                </Form.Item>
+                <Form.Item>
+                  <Button onClick={ () => clearForm()} block>
+                    Clear
                   </Button>
                 </Form.Item>
               </>

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Row, Col, Button, Divider, notification } from "antd";
+import { useEffect, useState } from "react";
+import { Row, Col, notification } from "antd";
 import OrderedItemCard from "./OrderedItemCard";
 import axios from "axios";
 import {
@@ -8,15 +8,11 @@ import {
   HubConnectionBuilder,
 } from "@microsoft/signalr";
 import { apiBaseUrl, options } from "config";
-//  import sound from "../../../../assets/sound/Notification.mp3";
 const apiOrderUrl = `${apiBaseUrl}/Order/getKitchenOrders`;
 
 function OrderItemCardGrid() {
-  const audioPlayer = useRef(null);
   const [connection, setConnection] = useState<null | HubConnection>(null);
-  function playAudio() {
-    audioPlayer.current.play();
-  }
+
   useEffect(() => {
     const connect = new HubConnectionBuilder()
       .withUrl(`${apiBaseUrl}/hubs/notifications`, {
@@ -34,12 +30,10 @@ function OrderItemCardGrid() {
       connection
         .start()
         .then(() => {
-          connection.on("ReceiveMessage", (message) => {
-            notification.open({
-              message: "New Notification",
-              description: message.message,
+          connection.on("ReceiveMessage", () => {
+            notification.success({
+              message: "New order Created!",
             });
-            playAudio();
             fetchKitchenOrders();
           });
         })
@@ -70,7 +64,6 @@ function OrderItemCardGrid() {
               />
             </Col>
           ))}
-          <audio ref={audioPlayer} src={"sound"} />
         </Row>
       </Col>
     </Row>

@@ -1,5 +1,5 @@
 import { Icon } from '@chakra-ui/react';
-import {MdLock,  MdApproval, MdOutlineInventory, MdOutlineInventory2, MdOutlineRestaurantMenu,MdOutlineRestaurant, MdAppRegistration} from 'react-icons/md';
+import {MdLock,  MdApproval, MdOutlineInventory, MdOutlineInventory2, MdOutlineRestaurantMenu,MdOutlineRestaurant, MdAppRegistration, MdOutlineHistory} from 'react-icons/md';
 // Admin Imports
 import Order from 'views/admin/cashierOrderPage';
 import Ordered from 'views/admin/kitchenOrderDisplay';
@@ -10,6 +10,7 @@ import RequestApproval from 'views/admin/requestApproval';
 import SignInCentered from 'views/auth/signIn';
 import ItemRemainingForm from 'views/admin/itemRemainingForm';
 import RemainingApproval from 'views/admin/RemainingApproval';
+import OrderHistory from 'views/admin/orderHistory';
 
 
 const routes = [
@@ -19,6 +20,14 @@ const routes = [
 		path: '/order-page',
 		icon: <Icon as={MdOutlineRestaurantMenu} width='20px' height='20px' color='inherit' />,
 		component: Order,
+		allowedRoles:['Cashier']
+	},
+	{
+		name: 'Order history',
+		layout: '/admin',
+		path: '/order-history',
+		icon: <Icon as={MdOutlineHistory} width='20px' height='20px' color='inherit' />,
+		component: OrderHistory,
 		allowedRoles:['Cashier']
 	},
 	{

@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { Button,Card, Row, Col } from 'antd';
+import { Button,Card, Row, Col, notification } from 'antd';
 import axios from 'axios';
 import { apiBaseUrl, options } from 'config';
 import { Order } from 'Enum';
@@ -11,7 +11,13 @@ function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
   const itemsData=data.items;
   const chiefOrder=itemsData.filter((item:any)=>item.isChiefOrder==true);
   const baristaOrder=itemsData.filter((item:any)=>item.isChiefOrder==false);
-
+  
+  const openNotification = () => {
+      return(
+    notification.success({
+      message: 'Done order successfully!',
+      placement:'bottomRight'
+  }));};
   function handelOrderDone()
  {
   const updateOrderModel = {
@@ -23,6 +29,7 @@ function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
 
     if(result){
       fetchKitchenOrders();
+      openNotification();
     }
   }).catch(error=>{console.log(error)});
  }

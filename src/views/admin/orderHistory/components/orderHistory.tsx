@@ -3,6 +3,7 @@ import Moment from "react-moment";
 import {
   Button,
   Modal,
+  notification,
   Switch,
   Table,
   Tag,
@@ -19,6 +20,20 @@ const OrderHistory = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [pendingOrderOnly, setPendingOrderOnly] = useState(Boolean);
 
+  const openNotification = (value:any) => {
+    if(value=="true"){
+      return(
+    notification.success({
+      message: 'Cancelled order successfully!',
+      placement:'bottomRight'
+  }));}
+  else if(value=="can not cancel this order it took you more than 5 minute!"){
+  notification.error({
+    message: 'Can not cancel this order it took you more than 5 minute!',
+    placement:'bottomRight'
+  });
+  }
+  };
   function handelCancelButton(value: any) {
     const updateOrderModel = {
       orderId: value,
@@ -30,6 +45,7 @@ const OrderHistory = () => {
         if (result) {
           fetchAllOrders();
           setIsModalOpen(false);
+          openNotification(result.data);
         }
       })
       .catch((error) => {

@@ -2,7 +2,8 @@ import React, {useState } from 'react';
 import { Button,Card, Row, Col } from 'antd';
 import axios from 'axios';
 import { apiBaseUrl, options } from 'config';
-const apiOrderUrl=`${apiBaseUrl}/Order/updateKitchenOrderDelivered`;
+import { Order } from 'Enum';
+const apiUpdateKitchenOrderStatus=`${apiBaseUrl}/Order/updateKitchenOrderStatus`;
 
 function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
 
@@ -13,7 +14,13 @@ function OrderedItemCard(props:{data:any, fetchKitchenOrders:any} ){
 
   function handelOrderDone()
  {
-  axios.put(apiOrderUrl,data.id,options).then((result)=>{
+  const updateOrderModel = {
+    orderId: data.id,
+    orderStatusId: Order.Delivered,
+  };
+
+  axios.put(apiUpdateKitchenOrderStatus,updateOrderModel,options).then((result)=>{
+
     if(result){
       fetchKitchenOrders();
     }
